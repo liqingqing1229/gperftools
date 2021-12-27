@@ -53,7 +53,7 @@ static void TestPageHeap_Stats() {
   CheckStats(ph.get(), 256, 0, 0);
 
   // Split span 's1' into 's1', 's2'.  Delete 's2'
-  tcmalloc::Span* s2 = ph->Split(s1, 128);
+  tcmalloc::Span* s2 = ph->SplitForTest(s1, 128);
   ph->Delete(s2);
   CheckStats(ph.get(), 256, 128, 0);
 
