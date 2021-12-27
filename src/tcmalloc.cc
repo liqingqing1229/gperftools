@@ -149,7 +149,6 @@ using std::vector;
 
 #include "libc_override.h"
 
-using tcmalloc::AlignmentForSize;
 using tcmalloc::kLog;
 using tcmalloc::kCrash;
 using tcmalloc::kCrashWithStats;
@@ -1078,7 +1077,9 @@ static ATTRIBUTE_NOINLINE size_t nallocx_slow(size_t size, int flags) {
   if (ok) {
     return Static::sizemap()->ByteSizeForClass(cl);
   } else {
-    return tcmalloc::pages(size) << kPageShift;
+    Length pages = tcmalloc::pages(size);
+    pages = Static::pageheap()->RoundUpSize(pages);
+    return pages << kPageShift;
   }
 }
 
